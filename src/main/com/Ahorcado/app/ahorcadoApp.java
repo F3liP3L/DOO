@@ -213,6 +213,9 @@ public class ahorcadoApp {
                             String palabraNueva = teclado.next();
                             ahorcado.cambiarPalabra(palabraACambiar, palabraNueva);
                             break;
+                        case 5:
+                            System.out.println("Saliendo del juego....\n");
+                            break;
                         default:
                             System.out.println("Opcion invalida");
                     }
