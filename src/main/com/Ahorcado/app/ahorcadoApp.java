@@ -12,6 +12,7 @@ public class ahorcadoApp {
 
     public static void main(String[] args) {
         int intentosTotales = 0, intentos = 0, aciertos = 0, puntaje = 0, dificultad, opcion;
+        String complejidad;
 
         // leer por teclado:
 
@@ -85,108 +86,111 @@ public class ahorcadoApp {
                         if (dificultad == 1) {
                             intentosTotales = 4;
                             listaDePalabras = ahorcado.palabrasPorDificultad(1);
+                            complejidad = "Facil";
                         } else if (dificultad == 2) {
                             intentosTotales = 6;
                             listaDePalabras = ahorcado.palabrasPorDificultad(2);
+                            complejidad = "Media";
                         } else if (dificultad == 3) {
                             intentosTotales = 8;
                             listaDePalabras = ahorcado.palabrasPorDificultad(3);
+                            complejidad = "Dificil";
                         } else {
                             System.out.println("\n\t Bienvenido al modo por defecto\n ");
                             int juegoAleatorio = numeroAleatorio.nextInt(3 - 1) + 1;
                             intentosTotales = 4;
                             listaDePalabras = ahorcado.palabrasPorDificultad(juegoAleatorio);
+                            complejidad = "Aleatoria";
                         }
 
                         if (listaDePalabras.isEmpty()) {
-                            System.out.println("No hay ninguna palabra en la lista.");
-                        }
-
-                        //     ---- |  Dividimos la palabra y la guardamos en un array de caracteres.  | ----
-
-                        int alea = numeroAleatorio.nextInt(listaDePalabras.size());
-                        System.out.println(alea);
-
-                        char[] palabraDividida = dividir(String.valueOf(listaDePalabras.get(alea).getCaracteres()));
-                        char[] copia = dividir(String.valueOf(listaDePalabras.get(alea).getCaracteres()));
-
-                        //     ---- |   Array para pintar en pantalla (Guiones o letras vamos).  | ----
-
-                        char[] tusRespuestas = new char[palabraDividida.length];
-
-                        // Rellenamos palabras con guiones
-
-                        for (int i = 0; i < tusRespuestas.length; i++) {
-                            tusRespuestas[i] = '_';
-                        }
-
-                        // CAMBIAR MODO DE JUEGO
-
-                        while (intentos < intentosTotales && aciertos != tusRespuestas.length) {
-                            imprimeOculta(tusRespuestas);
-
-                            // Preguntamos por teclado
-
-                            System.out.println("\n Introduce una letra: ");
-                            resp = teclado.next().toLowerCase().charAt(0);
-
-                            // Recorremos el array y comprobamos si se ha producido un acierto
-
-                            boolean acertividad = false;
-                            for (int i = 0; i < palabraDividida.length; i++) {
-                                if (palabraDividida[i] == resp) {
-                                    tusRespuestas[i] = palabraDividida[i];
-                                    palabraDividida[i] = ' ';
-                                    aciertos++;
-                                    acertividad = true;
-                                }
-                            }
-                            if (!acertividad) {
-                                intentos++;
-                            }
-                        }
-
-                        // Si hemos acertado todas imprimimos un mensaje
-
-                        if (aciertos == tusRespuestas.length) {
-                            //  Para las palabras ya usadas.
-                            listaDePalabras.get(alea).setEstado(false);
-                            System.out.print("\nFelicidades!! has acertado la palabra: ");
-                            if (dificultad == 1) {
-                                puntaje += 1;
-                                if (intentos == 0) {
-                                    puntaje += 1;
-                                }
-                            } else if (dificultad == 2) {
-                                puntaje += 2;
-                                if (intentos == 0) {
-                                    puntaje += 2;
-                                }
-                            } else if (dificultad == 3){
-                                puntaje += 4;
-                                if (intentos == 0) {
-                                    puntaje += 3;
-                                }
-                            } else {
-                                puntaje += numeroAleatorio.nextInt(3);
-                                if(intentos == 0) {
-                                    puntaje += numeroAleatorio.nextInt(5);
-                                }
-                            }
-                            imprimeOculta(tusRespuestas);
+                            System.out.println("No hay ninguna palabra en la lista." +
+                                    " \n Porfavor agregar palabras de nivel [" + complejidad + "] \n");
+                            resp = 'n';
                         } else {
-                            System.out.print("\n Que mal :( , La palabra era: ");
-                            for (int i = 0; i < copia.length; i++) {
-                                System.out.print(copia[i] + " ");
+                            //     ---- |  Dividimos la palabra y la guardamos en un array de caracteres.  | ----
+
+                            int alea = numeroAleatorio.nextInt(listaDePalabras.size());
+
+                            char[] palabraDividida = dividir(String.valueOf(listaDePalabras.get(alea).getCaracteres()));
+                            char[] copia = dividir(String.valueOf(listaDePalabras.get(alea).getCaracteres()));
+
+                            //     ---- |   Array para pintar en pantalla (Guiones o letras vamos).  | ----
+
+                            char[] tusRespuestas = new char[palabraDividida.length];
+
+                            // Rellenamos palabras con guiones
+
+                            for (int i = 0; i < tusRespuestas.length; i++) {
+                                tusRespuestas[i] = '_';
                             }
+
+                            while (intentos < intentosTotales && aciertos != tusRespuestas.length) {
+                                imprimeOculta(tusRespuestas);
+
+                                // Preguntamos por teclado
+
+                                System.out.println("\n Introduce una letra: ");
+                                resp = teclado.next().toLowerCase().charAt(0);
+
+                                // Recorremos el array y comprobamos si se ha producido un acierto
+
+                                boolean acertividad = false;
+                                for (int i = 0; i < palabraDividida.length; i++) {
+                                    if (palabraDividida[i] == resp) {
+                                        tusRespuestas[i] = palabraDividida[i];
+                                        palabraDividida[i] = ' ';
+                                        aciertos++;
+                                        acertividad = true;
+                                    }
+                                }
+                                if (!acertividad) {
+                                    intentos++;
+                                }
+                            }
+
+                            // Si hemos acertado todas imprimimos un mensaje
+
+                            if (aciertos == tusRespuestas.length) {
+                                //  Para las palabras ya usadas.
+                                listaDePalabras.get(alea).setEstado(false);
+                                System.out.print("\nFelicidades!! has acertado la palabra: ");
+                                if (dificultad == 1) {
+                                    puntaje += 1;
+                                    if (intentos == 0) {
+                                        puntaje += 1;
+                                    }
+                                } else if (dificultad == 2) {
+                                    puntaje += 2;
+                                    if (intentos == 0) {
+                                        puntaje += 2;
+                                    }
+                                } else if (dificultad == 3) {
+                                    puntaje += 4;
+                                    if (intentos == 0) {
+                                        puntaje += 3;
+                                    }
+                                } else {
+                                    puntaje += numeroAleatorio.nextInt(3);
+                                    if (intentos == 0) {
+                                        puntaje += numeroAleatorio.nextInt(5);
+                                    }
+                                }
+                                imprimeOculta(tusRespuestas);
+                            } else {
+                                System.out.print("\n Que mal :( , La palabra era: ");
+                                for (int i = 0; i < copia.length; i++) {
+                                    System.out.print(copia[i] + " ");
+                                }
+                            }
+                            // Reseteamos contadores
+                            intentos = 0;
+                            aciertos = 0;
+
+                            // Volvemos a preguntarle al usuario si quiere volver a jugar.
+
+                            resp = pregunta("\n\n Quieres volver a jugar?", teclado);
                         }
-                        // Reseteamos contadores
-                        intentos = 0;
-                        aciertos = 0;
-
-                        // Volvemos a preguntarle al usuario si quiere volver a jugar.
-
-                        resp = pregunta("\n\n Quieres volver a jugar?", teclado);
 
                         } while (resp != 'n');
                             break;
