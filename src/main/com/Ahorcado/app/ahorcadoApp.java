@@ -61,11 +61,8 @@ public class ahorcadoApp {
         ahorcado.agregarPalabra(palabra13);
         ahorcado.agregarPalabra(palabra14);
 
-         /*              |       Revisando la lista de palabras :D       |
-
-            ahorcado.getPalabras().forEach(word -> System.out.println(word.getCaracteres()));
-
-         */
+         //              |       Revisando la lista de palabras :D       |
+         // ahorcado.getPalabras().forEach(word -> System.out.println(word.getCaracteres()));
 
         System.out.println("\t\t\t Adivina la palabra!");
 
